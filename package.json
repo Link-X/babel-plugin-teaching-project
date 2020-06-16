@@ -1,0 +1,22 @@
+{
+  "name": "bable-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test1.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/generator": "^7.10.2",
+    "@babel/plugin-transform-for-of": "^7.10.1",
+    "@babel/preset-react": "^7.10.1",
+    "@babel/template": "^7.10.1",
+    "@babel/traverse": "^7.10.1",
+    "@babel/types": "^7.10.2",
+    "babylon": "^6.18.0"
+  }
+}
