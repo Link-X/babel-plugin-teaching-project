@@ -56,8 +56,9 @@
 ```  
 * 然后npm i * * -D 上面上个包
 #### 第二部（配置文件）
-> tsconfig.json
+> tsconfig.json  
 
+我们需要配置一些typescript，加上入口（`rootDir`)、出口`outDir`、以及需要将什么模块(`target`)的代码打包到什么模块(`module`)类型等等
 ```javascript
 {
   "compilerOptions": {
@@ -78,11 +79,10 @@
 ```
 > .vscode/launch.json
 
+这个是VsCode 的配置文件，我们将`program`参数指向babel-cli的index.js 然后加上参数设置入口、出口
+
 ```javascript
 {
-  // 使用 IntelliSense 了解相关属性。 
-  // 悬停以查看现有属性的描述。
-  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
@@ -103,6 +103,8 @@
 
 > .vscode/task.json
 
+这个是VsCode的构建命令配置文件。配置了这个我们就可以利用快捷键打包我们的项目代码了
+
 ```javascript
 {
   "version": "0.1.0",
@@ -115,6 +117,8 @@
 ```
 
 > babel.config.js
+
+这个是我们插件配置文件。将来如果有人用这个插件，这就是他们要配置的东西 ~~用来做什么？~~
 
 ```javascript
 const presets = ['@babel/preset-react']
@@ -135,6 +139,7 @@ module.exports = { presets, plugins }
 
 > package.json 
 
+项目的依赖文件配置，这个不用多说了把
 ```
   .....
   "scripts": {
@@ -143,8 +148,18 @@ module.exports = { presets, plugins }
   .....
 ```
 
+> 测试代码
+
+这个是我们用来测试插件的代码，到时候会将这个代码打包成我们想要的样子
+```javascript
+let b = <PPP>1234</PPP>
+let element = <Button color="red"  />
+```
+
 > babel-project/index.ts  
 
+
+本体来了~ 这个就是我们插件的全部代码。
 ```javascript
 // import * as babelCore from '@babel/core'
 import * as parser from '@babel/parser'
@@ -207,9 +222,23 @@ export default function() {
 ```
 
 #### 第三步（打包测试）  
-* 按`Ctrl` + `Shift` + `B` 选中npm:build(然后可以看到我们的代码已经被打包好了）
+* 按`Ctrl` + `Shift` + `B`  选中npm:build打包好我们的项目代码。
+
+  ![](http://39.108.184.64/image/79296075627188681592291163269.jpg)
+  
 * 在 `babel-project/index.ts`中任意位置加上断点，按F5     
 
-可以看到已经能够正常调试了，接下来你要做的就是熟悉ECMA规范和Babel提供给我们的API啦！
-![](http://39.108.184.64/image/99347971052652181592211726722.jpg) 
+  ![](http://39.108.184.64/image/87143975581244251592291184921.jpg)
+ 
+最后执行完毕后就是我们插件修改后的代码啦
 
+> lib/index.js
+
+```javascript
+let b = /*#__PURE__*/React.createElement(PPP, null, "1234");
+let element = /*#__PURE__*/React.createElement(Button, {
+  color: "red",
+  "size": "small" // 这个是我们插件加入的
+});
+```
+好吧，其实看完这个并不能教会你开发babel插件~~我也没说看了就能学会~~，只能告诉你如何调试一个简单的Babel插件。如果想要开发一个好的插件首先我们得找到人们编码时候的痛点，有了好的创意后在去熟悉babel提供的API和ECMA标准，以及它的AST格式。
